@@ -10,12 +10,10 @@ const downloadsDir = require('./downloads-dir')
 
 const ffmpegPath = ffmpeg.path.replace('app.asar', 'app.asar.unpacked')
 
-const audioExtensions = ['aac', 'flac', 'mp3', 'm4a', 'opus', 'vorbis', 'wav']
-const videoExtensions = ['mp4', 'flv', 'ogg', 'webm', 'mkv', 'avi']
 const formats = [
   {
-    name: `Audio (${audioExtensions.join(', ')})`,
-    extensions: audioExtensions,
+    name: `Audio`,
+    extensions: ['aac', 'flac', 'mp3', 'm4a', 'opus', 'vorbis', 'wav'],
     getArgs: extension => [
       '--extract-audio',
       `--audio-format=${extension}`,
@@ -24,8 +22,8 @@ const formats = [
     ]
   },
   {
-    name: `Video (${videoExtensions.join(', ')})`,
-    extensions: videoExtensions,
+    name: `Video`,
+    extensions: ['mp4', 'flv', 'ogg', 'webm', 'mkv', 'avi'],
     getArgs: extension => [
       `--recode-video=${extension}`,
       `--ffmpeg-location=${ffmpegPath}`
@@ -37,6 +35,13 @@ const filters = formats.map(format => ({
   name: format.name,
   extensions: format.extensions
 }))
+
+const message = `You may download as an audio file or video file.
+Supported formats/extensions:
+
+${formats
+    .map(format => `- ${format.name}: ${format.extensions.join(', ')}`)
+    .join('\n')}`
 
 const formatsByExtension = formats.reduce((map, format) => {
   return format.extensions.reduce((innerMap, extension) => {
@@ -59,7 +64,8 @@ function initYouTubeBackend (window) {
       const dialogOptions = {
         title: 'Where to save',
         defaultPath: path.join(downloadsDir, `${sanitize(info.title)}.m4a`),
-        filters
+        filters,
+        message
       }
       dialog.showSaveDialog(window, dialogOptions, filepath => {
         if (!filepath) {

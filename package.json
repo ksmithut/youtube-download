@@ -10,7 +10,7 @@
     "format": "prettier-eslint **/*.js --write",
     "lint": "standard && prettier-eslint **/*.js --list-different",
     "start": "electron .",
-    "build": "electron-builder -mwl",
+    "build": "electron-builder -m",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
