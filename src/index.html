@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YouTube Download</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+  <main>
+    <form id="download-form" class="download-form">
+      <label class="input-label" for="url-input">Paste YouTube URL below</label>
+      <div class="input-wrapper">
+        <div id="progress" class="progress"></div>
+        <input class="url-input" id="url-input" />
+        <button class="download-button" id="download-button">
+          Download
+        </button>
+      </div>
+    </form>
+    <div id="message-overlay" class="message-overlay">
+      <span id="overlay-message" class="overlay-message"></span>
+    </div>
+    <div id="progress" class="progress"></div>
+  </main>
+
+  <script src="./renderer.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#535760+0,5793db+100 */
+  background: #535760;
+  height: 100%;
+  width: 100%;
+  -webkit-app-region: drag;
+}
+
+header {
+  height: 38px;
+  width: 100;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.input-label {
+  color: #ffffff;
+  font-size: 20px;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 9px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  -webkit-app-region: no-drag;
+  height: 37px;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.url-input {
+  width: 400px;
+  border: 0;
+  height: 100%;
+  font-size: 17px;
+  padding: 0 0 0 13px;
+  /* border-radius: 7px 0px 0px 7px; */
+}
+
+.download-button {
+  /* border-radius: 0px 7px 7px 0px; */
+  height: 100%;
+  border: 0;
+  background-color: #5793db;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: bold;
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.message-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  background: #ffffff00;
+}
+
+.message-overlay .overlay-message {
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+
+.message-overlay.info {
+  background: #ffffff99;
+}
+
+.message-overlay.success {
+  background: #1cbc6199;
+}
+
+.message-overlay.error {
+  background: #e03d1d99;
+}
+
+.overlay-message {
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  opacity: 0;
+  width: 1px;
+  background: #ffec52;
+  transition: all 0.1s ease-in-out;
+  display: flex;
+  font-weight: bold;
+  justify-content: left;
+  align-items: center;
+}
