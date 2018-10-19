@@ -12,14 +12,9 @@ function createMenuTemplate (mainWindow) {
       label: 'YouTube Download',
       submenu: [
         {
-          label: 'About Application',
-          selector: 'orderFrontStandardAboutPanel:'
-        },
-        { type: 'separator' },
-        {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click: function () {
+          click () {
             app.quit()
           }
         }

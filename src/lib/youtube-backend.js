@@ -10,20 +10,26 @@ const downloadsDir = require('./downloads-dir')
 
 const ffmpegPath = ffmpeg.path.replace('app.asar', 'app.asar.unpacked')
 
+const audioExtensions = ['aac', 'flac', 'mp3', 'm4a', 'opus', 'vorbis', 'wav']
+const videoExtensions = ['mp4', 'flv', 'ogg', 'webm', 'mkv', 'avi']
 const formats = [
   {
-    name: 'Audio',
-    extensions: ['aac', 'flac', 'mp3', 'm4a', 'opus', 'vorbis', 'wav'],
+    name: `Audio (${audioExtensions.join(', ')})`,
+    extensions: audioExtensions,
     getArgs: extension => [
       '--extract-audio',
       `--audio-format=${extension}`,
-      `--ffmpeg-location=${ffmpegPath}`
+      `--ffmpeg-location=${ffmpegPath}`,
+      '--embed-thumbnail'
     ]
   },
   {
-    name: 'Video',
-    extensions: ['mp4', 'flv', 'ogg', 'webm', 'mkv', 'avi'],
-    getArgs: extension => [`--recode-video=${extension}`]
+    name: `Video (${videoExtensions.join(', ')})`,
+    extensions: videoExtensions,
+    getArgs: extension => [
+      `--recode-video=${extension}`,
+      `--ffmpeg-location=${ffmpegPath}`
+    ]
   }
 ]
 
