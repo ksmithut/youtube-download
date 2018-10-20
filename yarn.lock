@@ -1195,6 +1195,11 @@ ffmpeg-static@^2.3.0:
   resolved "https://registry.yarnpkg.com/ffmpeg-static/-/ffmpeg-static-2.3.0.tgz#36976dc432a8df269c62aea705256bbd9fb66a94"
   integrity sha512-Cb6AjBnybjlxrqBEgrnwRMeQFiyQYUd1C8SsRPabJ4Glc7SD//QHYnDuZlNX5E6sdMitnINkADFGREUtY8lhuQ==
 
+ffprobe-static@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ffprobe-static/-/ffprobe-static-3.0.0.tgz#479689c8a237987beca5627968f3d87429bf569d"
+  integrity sha512-LZ1Sj4RHS95t/ReZtRbCmMEWDDl7cfIMwmhNgCZcdtOgRlAHaGGOupoc166Q9AV+T7lXnUvu5HYczcsn69c6fw==
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
