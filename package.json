@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "ffmpeg-static": "^2.3.0",
+    "ffprobe-static": "^3.0.0",
     "sanitize-filename": "^1.6.1",
     "youtube-dl": "^1.12.2"
   },
@@ -35,6 +36,7 @@
     ],
     "asarUnpack": [
       "**/app/node_modules/ffmpeg-static/*",
+      "**/app/node_modules/ffprobe-static/*",
       "**/app/node_modules/youtube-dl/*"
     ],
     "dmg": {

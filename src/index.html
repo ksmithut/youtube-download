@@ -15,8 +15,10 @@
     <form id="download-form" class="download-form">
       <label class="input-label" for="url-input">Paste YouTube URL below</label>
       <div class="input-wrapper">
-        <div id="progress" class="progress"></div>
-        <input class="url-input" id="url-input" />
+        <input class="url-input" id="url-input" type="url" autofocus required />
+        <select class="download-format" id="download-format" required>
+          <option value="">Select Format</option>
+        </select>
         <button class="download-button" id="download-button">
           Download
         </button>
