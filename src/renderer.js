@@ -22,22 +22,27 @@ const formatGroups = formats.map(format => {
   return group
 })
 
+const videoExtensions = new Set(
+  formats.find(format => format.name === 'Video').extensions
+)
+
 const downloadForm = document.getElementById('download-form')
 const inputURL = document.getElementById('url-input')
 const downloadFormat = document.getElementById('download-format')
 const overlay = document.getElementById('message-overlay')
 const overlayMessage = document.getElementById('overlay-message')
+const videoWarning = document.getElementById('video-warning')
 
 downloadFormat.append(...formatGroups)
 
 Object.assign(inputURL, {
-  onfocus() {
+  onfocus () {
     this.select()
   }
 })
 
 Object.assign(downloadForm, {
-  onsubmit(event) {
+  onsubmit (event) {
     event.preventDefault()
     ipcRenderer.send('download', {
       url: inputURL.value,
@@ -46,8 +51,14 @@ Object.assign(downloadForm, {
   }
 })
 
+Object.assign(downloadFormat, {
+  onchange (event) {
+    videoWarning.style.opacity = videoExtensions.has(event.target.value) ? 1 : 0
+  }
+})
+
 const originalOverlayClassName = overlay.className
-function showOverlay(message, type = 'info') {
+function showOverlay (message, type = 'info') {
   overlay.style.opacity = 1
   overlay.style.pointerEvents = 'initial'
   overlay.className = [originalOverlayClassName, type].join(' ')
@@ -55,7 +66,7 @@ function showOverlay(message, type = 'info') {
   overlayMessage.innerText = message
 }
 
-function hideOverlay() {
+function hideOverlay () {
   overlay.style.opacity = 0
   overlay.style.pointerEvents = 'none'
   overlay.className = originalOverlayClassName
@@ -63,24 +74,15 @@ function hideOverlay() {
   overlayMessage.innterText = ''
 }
 
-let downloadingInterval
-
 ipcRenderer
   .on('download::verifying', event => {
     showOverlay('Verifying YouTube URL...')
   })
   .on('download::downloading', event => {
     showOverlay('Downloading...')
-    let count = 0
-    downloadingInterval = setInterval(() => {
-      count++
-      const dots = '.'.repeat((count % 10) + 1)
-      showOverlay(`Downloading\n${dots}\n(Videos may take a few minutes longer)`)
-    }, 300)
   })
   .on('download::success', event => {
-    showOverlay('Finished downloading!\n\nFile should be in your Downloads folder', 'success')
-    clearInterval(downloadingInterval)
+    showOverlay('Finished downloading!', 'success')
     setTimeout(() => {
       hideOverlay()
     }, 2000)
@@ -88,7 +90,6 @@ ipcRenderer
   .on('download::error', (event, error) => {
     console.log({ error })
     showOverlay('Error downloading file', 'error')
-    clearInterval(downloadingInterval)
     setTimeout(() => {
       hideOverlay()
     }, 2000)

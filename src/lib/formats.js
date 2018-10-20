@@ -4,17 +4,12 @@ exports.formats = [
   {
     name: `Audio`,
     extensions: ['aac', 'flac', 'mp3', 'm4a', 'opus', 'vorbis', 'wav'],
-    getArgs: extension => [
-      '--extract-audio',
-      `--audio-format=${extension}`
-    ]
+    getArgs: extension => ['--extract-audio', `--audio-format=${extension}`]
   },
   {
     name: `Video`,
     extensions: ['mp4', 'flv', 'ogg', 'webm', 'mkv', 'avi'],
-    getArgs: extension => [
-      `--recode-video=${extension}`
-    ]
+    getArgs: extension => [`--recode-video=${extension}`]
   }
 ]
 

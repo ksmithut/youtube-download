@@ -19,22 +19,31 @@ const ffmpegPath = ffmpeg.path.replace('app.asar', 'app.asar.unpacked')
 const ffprobePath = ffprobe.path.replace('app.asar', 'app.asar.unpacked')
 
 // TODO python is a dependency, need to include it into the package somehow
-const BINARY_PATHS = [ffmpegPath, ffprobePath].map(path.dirname).concat(process.env.PATH).join(':')
+const BINARY_PATHS = [ffmpegPath, ffprobePath]
+  .map(path.dirname)
+  .concat(process.env.PATH)
+  .join(':')
 
-function initYouTubeBackend(window) {
+function initYouTubeBackend (window) {
   ipcMain.on('download', (event, options) => {
     event.sender.send('download::verifying')
-    youtube.getInfo(options.url)
+    youtube
+      .getInfo(options.url)
       .then(info => {
         const outputBase = path.join(downloadsDir, sanitize(info.title))
         const outputTemplate = `${outputBase}.%(ext)s`
         const format = formatsByExtension[options.format]
         if (!format) throw new Error('Unsupported file format')
-        const args = format.args.concat([`--output=${outputTemplate}`, '--no-progress', '--no-continue', '--restrict-filenames'])
+        const args = format.args.concat([
+          `--output=${outputTemplate}`,
+          '--no-progress',
+          '--no-continue',
+          '--restrict-filenames'
+        ])
         event.sender.send('download::downloading')
         return youtube.exec(options.url, args, { env: { PATH: BINARY_PATHS } })
       })
-      .then((stdout) => {
+      .then(stdout => {
         event.sender.send('download::success')
       })
       .catch(err => {

@@ -6,7 +6,7 @@ const initYouTubeBackend = require('./lib/youtube-backend')
 
 const INDEX_HTML_PATH = path.join(__dirname, 'index.html')
 
-function createMenuTemplate(mainWindow) {
+function createMenuTemplate (mainWindow) {
   return [
     {
       label: 'YouTube Download',
@@ -14,7 +14,7 @@ function createMenuTemplate(mainWindow) {
         {
           label: 'Quit',
           accelerator: 'Command+Q',
-          click() {
+          click () {
             app.quit()
           }
         }
@@ -36,13 +36,13 @@ function createMenuTemplate(mainWindow) {
 
 let mainWindow
 
-function createWindow() {
+function createWindow () {
   mainWindow = new BrowserWindow({
     minWidth: 700,
     width: 900,
 
     minHeight: 200,
-    height: 400,
+    height: 300,
 
     titleBarStyle: 'hiddenInset',
     fullscreenable: false,
@@ -50,7 +50,7 @@ function createWindow() {
     movable: true
   })
   mainWindow.loadFile(INDEX_HTML_PATH)
-  // mainWindow.webContents.openDevTools({ mode: 'detach' })
+  mainWindow.webContents.openDevTools({ mode: 'detach' })
   mainWindow.on('closed', () => {
     mainWindow = null
   })
