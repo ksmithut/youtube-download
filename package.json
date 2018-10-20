@@ -7,8 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "format": "prettier-eslint **/*.js --write",
-    "lint": "standard && prettier-eslint **/*.js --list-different",
+    "format": "prettier-eslint 'src/**/*.js' --write",
+    "lint": "standard && prettier-eslint 'src/**/*.js' --list-different",
     "start": "electron .",
     "build": "electron-builder",
     "postinstall": "electron-builder install-app-deps"
