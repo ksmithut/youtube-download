@@ -1,7 +1,7 @@
 {
   "name": "youtube-download",
   "description": "An app to download YouTube videos into various audio and video formats",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "src/main.js",
   "author": "ksmithut <ksmith.ut@gmail.com>",
   "license": "MIT",
