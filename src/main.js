@@ -50,7 +50,7 @@ function createWindow () {
     movable: true
   })
   mainWindow.loadFile(INDEX_HTML_PATH)
-  mainWindow.webContents.openDevTools({ mode: 'detach' })
+  // mainWindow.webContents.openDevTools({ mode: 'detach' })
   mainWindow.on('closed', () => {
     mainWindow = null
   })

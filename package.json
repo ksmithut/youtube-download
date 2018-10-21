@@ -1,7 +1,7 @@
 {
   "name": "youtube-download",
   "description": "An app to download YouTube videos into various audio and video formats",
-  "version": "1.1.0",
+  "version": "0.0.0",
   "main": "src/main.js",
   "author": "ksmithut <ksmith.ut@gmail.com>",
   "license": "MIT",
@@ -35,9 +35,9 @@
       "src/**/*"
     ],
     "asarUnpack": [
-      "**/app/node_modules/ffmpeg-static/*",
-      "**/app/node_modules/ffprobe-static/*",
-      "**/app/node_modules/youtube-dl/*"
+      "**/node_modules/ffmpeg-static/*",
+      "**/node_modules/ffprobe-static/*",
+      "**/node_modules/youtube-dl/*"
     ],
     "dmg": {
       "contents": [
@@ -55,13 +55,25 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns"
+      "icon": "build/icons/icon.icns",
+      "files": [
+        "!node_modules/*-static/bin/linux/*",
+        "!node_modules/*-static/bin/win32/*"
+      ]
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "files": [
+        "!node_modules/*-static/bin/darwin/*",
+        "!node_modules/*-static/bin/win32/*"
+      ]
     },
     "linux": {
-      "icon": "build/icons"
+      "icon": "build/icons",
+      "files": [
+        "!node_modules/*-static/bin/linux/*",
+        "!node_modules/*-static/bin/darwin/*"
+      ]
     }
   }
 }
