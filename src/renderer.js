@@ -81,7 +81,7 @@ ipcRenderer
   .on('download::downloading', event => {
     showOverlay('Downloading...')
   })
-  .on('download::success', event => {
+  .on('download::success', (event, { title, filepath }) => {
     showOverlay('Finished downloading!', 'success')
     setTimeout(() => {
       hideOverlay()

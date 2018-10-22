@@ -2,7 +2,7 @@
 
 const path = require('path')
 const { promisify } = require('util')
-const { ipcMain } = require('electron')
+const { ipcMain, Notification, shell } = require('electron')
 const youtubeDL = require('youtube-dl')
 const ffmpeg = require('ffmpeg-static')
 const ffprobe = require('ffprobe-static')
@@ -30,8 +30,10 @@ function initYouTubeBackend (window) {
     youtube
       .getInfo(options.url)
       .then(info => {
-        const outputBase = path.join(downloadsDir, sanitize(info.title))
+        const title = sanitize(info.title)
+        const outputBase = path.join(downloadsDir, title)
         const outputTemplate = `${outputBase}.%(ext)s`
+        const filepath = `${outputBase}.${options.format}`
         const format = formatsByExtension[options.format]
         if (!format) throw new Error('Unsupported file format')
         const args = format.args.concat([
@@ -41,12 +43,27 @@ function initYouTubeBackend (window) {
           '--restrict-filenames'
         ])
         event.sender.send('download::downloading')
-        return youtube.exec(options.url, args, { env: { PATH: BINARY_PATHS } })
+        return youtube
+          .exec(options.url, args, { env: { PATH: BINARY_PATHS } })
+          .then(() => ({ title, filepath }))
       })
-      .then(stdout => {
-        event.sender.send('download::success')
+      .then(({ title, filepath }) => {
+        const notification = new Notification({
+          title: 'Finished Downloading',
+          subtitle: title,
+          body: 'Click to open containing folder'
+        })
+        notification.show()
+        notification.on('click', () => {
+          shell.showItemInFolder(filepath)
+        })
+        event.sender.send('download::success', { title, filepath })
       })
       .catch(err => {
+        const notification = new Notification({
+          title: 'Error downloading'
+        })
+        notification.show()
         event.sender.send('download::error', err)
       })
   })
