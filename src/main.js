@@ -47,7 +47,10 @@ function createWindow () {
     titleBarStyle: 'hiddenInset',
     fullscreenable: false,
     maximizable: false,
-    movable: true
+    movable: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
   mainWindow.loadFile(INDEX_HTML_PATH)
   // mainWindow.webContents.openDevTools({ mode: 'detach' })
