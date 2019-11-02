@@ -27,7 +27,9 @@ const videoExtensions = new Set(
 )
 
 const downloadForm = document.getElementById('download-form')
+/** @type {HTMLInputElement} */
 const inputURL = document.getElementById('url-input')
+/** @type {HTMLSelectElement} */
 const downloadFormat = document.getElementById('download-format')
 const overlay = document.getElementById('message-overlay')
 const overlayMessage = document.getElementById('overlay-message')
@@ -35,43 +37,39 @@ const videoWarning = document.getElementById('video-warning')
 
 downloadFormat.append(...formatGroups)
 
-Object.assign(inputURL, {
-  onfocus () {
-    this.select()
-  }
-})
+inputURL.onfocus = () => inputURL.select()
 
-Object.assign(downloadForm, {
-  onsubmit (event) {
-    event.preventDefault()
-    ipcRenderer.send('download', {
+downloadForm.onsubmit = event => {
+  event.preventDefault()
+  ipcRenderer
+    .invoke('download', {
       url: inputURL.value,
       format: downloadFormat.value
     })
-  }
-})
+    .catch(console.log)
+}
 
-Object.assign(downloadFormat, {
-  onchange (event) {
-    videoWarning.style.opacity = videoExtensions.has(event.target.value) ? 1 : 0
-  }
-})
+downloadFormat.onchange = event => {
+  videoWarning.style.opacity = videoExtensions.has(event.target.value)
+    ? '1'
+    : '0'
+}
 
 const originalOverlayClassName = overlay.className
 function showOverlay (message, type = 'info') {
-  overlay.style.opacity = 1
+  overlay.style.opacity = '1'
   overlay.style.pointerEvents = 'initial'
   overlay.className = [originalOverlayClassName, type].join(' ')
-  overlayMessage.style.opacity = 1
+  overlayMessage.style.opacity = '1'
   overlayMessage.innerText = message
 }
 
 function hideOverlay () {
-  overlay.style.opacity = 0
+  overlay.style.opacity = '0'
   overlay.style.pointerEvents = 'none'
   overlay.className = originalOverlayClassName
-  overlayMessage.style.opacity = 0
-  overlayMessage.innterText = ''
+  overlayMessage.style.opacity = '0'
+  overlayMessage.innerText = ''
 }
 
 ipcRenderer
@@ -88,7 +86,6 @@ ipcRenderer
     }, 2000)
   })
   .on('download::error', (event, error) => {
-    console.log({ error })
     showOverlay('Error downloading file', 'error')
     setTimeout(() => {
       hideOverlay()

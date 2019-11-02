@@ -1,7 +1,7 @@
 {
   "name": "youtube-download",
   "description": "An app to download YouTube videos into various audio and video formats",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "src/main.js",
   "author": "ksmithut <ksmith.ut@gmail.com>",
   "license": "MIT",
@@ -14,16 +14,16 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "ffmpeg-static": "^2.5.0",
+    "ffmpeg-static": "^2.7.0",
     "ffprobe-static": "^3.0.0",
     "sanitize-filename": "^1.6.3",
-    "youtube-dl": "^2.0.1"
+    "youtube-dl": "^2.1.0"
   },
   "devDependencies": {
-    "electron": "^6.0.4",
-    "electron-builder": "^21.2.0",
+    "electron": "^7.0.1",
+    "electron-builder": "^22.1.0",
     "prettier-eslint-cli": "^5.0.0",
-    "standard": "^14.0.2"
+    "standard": "^14.3.1"
   },
   "build": {
     "productName": "YouTube Download",

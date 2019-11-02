@@ -25,47 +25,43 @@ const BINARY_PATHS = [ffmpegPath, ffprobePath]
   .join(':')
 
 function initYouTubeBackend (window) {
-  ipcMain.on('download', (event, options) => {
-    event.sender.send('download::verifying')
-    youtube
-      .getInfo(options.url)
-      .then(info => {
-        const title = sanitize(info.title)
-        const outputBase = path.join(downloadsDir, title)
-        const outputTemplate = `${outputBase}.%(ext)s`
-        const filepath = `${outputBase}.${options.format}`
-        const format = formatsByExtension[options.format]
-        if (!format) throw new Error('Unsupported file format')
-        const args = format.args.concat([
-          `--output=${outputTemplate}`,
-          '--no-progress',
-          '--no-continue',
-          '--restrict-filenames'
-        ])
-        event.sender.send('download::downloading')
-        return youtube
-          .exec(options.url, args, { env: { PATH: BINARY_PATHS } })
-          .then(() => ({ title, filepath }))
+  ipcMain.handle('download', async (event, options) => {
+    try {
+      event.sender.send('download::verifying')
+      const info = await youtube.getInfo(options.url)
+      const title = sanitize(info.title)
+      const outputBase = path.join(downloadsDir, title)
+      const outputTemplate = `${outputBase}.%(ext)s`
+      const filepath = `${outputBase}.${options.format}`
+      const format = formatsByExtension[options.format]
+      if (!format) throw new Error('Unsupported file format')
+      const args = format.args.concat([
+        `--output=${outputTemplate}`,
+        '--no-progress',
+        '--no-continue',
+        '--restrict-filenames'
+      ])
+      event.sender.send('download::downloading')
+      await youtube.exec(options.url, args, { env: { PATH: BINARY_PATHS } })
+      const notification = new Notification({
+        title: 'Finished Downloading',
+        subtitle: title,
+        body: 'Click to open containing folder'
       })
-      .then(({ title, filepath }) => {
-        const notification = new Notification({
-          title: 'Finished Downloading',
-          subtitle: title,
-          body: 'Click to open containing folder'
-        })
-        notification.show()
-        notification.on('click', () => {
-          shell.showItemInFolder(filepath)
-        })
-        event.sender.send('download::success', { title, filepath })
+      notification.show()
+      notification.on('click', () => {
+        shell.showItemInFolder(filepath)
       })
-      .catch(err => {
-        const notification = new Notification({
-          title: 'Error downloading'
-        })
-        notification.show()
-        event.sender.send('download::error', err)
+      event.sender.send('download::success', { title, filepath })
+    } catch (err) {
+      const notification = new Notification({
+        title: 'Error downloading',
+        body: err.message
       })
+      notification.show()
+      event.sender.send('download::error', err)
+      throw err
+    }
   })
 }
 
