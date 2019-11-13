@@ -20,7 +20,7 @@ const ffprobePath = ffprobe.path.replace('app.asar', 'app.asar.unpacked')
 
 // TODO python is a dependency, need to include it into the package somehow
 const BINARY_PATHS = [ffmpegPath, ffprobePath]
-  .map(path.dirname)
+  .map(filepath => path.dirname(filepath))
   .concat(process.env.PATH)
   .join(':')
 
@@ -42,7 +42,9 @@ function initYouTubeBackend (window) {
         '--restrict-filenames'
       ])
       event.sender.send('download::downloading')
-      await youtube.exec(options.url, args, { env: { PATH: BINARY_PATHS } })
+      await youtube.exec(options.url, args, {
+        env: { PATH: BINARY_PATHS }
+      })
       const notification = new Notification({
         title: 'Finished Downloading',
         subtitle: title,
