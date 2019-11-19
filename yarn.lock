@@ -3349,7 +3349,7 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
-youtube-dl@1.13.1:
+youtube-dl@^1:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/youtube-dl/-/youtube-dl-1.13.1.tgz#2da47c0dad3c5391e2172b7811da46501b82edc4"
   integrity sha512-89mUKwOavaojNKQlyzW+A7Dph5G/oPYs6T/PTMcvgdRQ5E2+uDQgYPxWHQDMBhHOkxQaxvxQTiTPKQLdg0OI4w==

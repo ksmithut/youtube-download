@@ -17,7 +17,7 @@
     "ffmpeg-static": "^2.7.0",
     "ffprobe-static": "^3.0.0",
     "sanitize-filename": "^1.6.3",
-    "youtube-dl": "^2.1.0"
+    "youtube-dl": "^1"
   },
   "devDependencies": {
     "electron": "^7.1.1",
